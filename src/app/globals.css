@@ -1,0 +1,172 @@
+@import "tailwindcss";
+
+/*
+ * Yasmeen World design tokens.
+ * The --bw-* colour variables are overwritten at request time with the palette
+ * saved in the admin dashboard (see src/lib/palette.ts -> paletteToCss), so the
+ * defaults below only apply until a logo/palette has been saved.
+ */
+:root {
+  --bw-primary: #9b5275;
+  --bw-secondary: #d8b8c7;
+  --bw-accent: #ead8e0;
+  --bw-bg: #faf6f8;
+  --bw-surface: #f3e8ed;
+  --bw-text: #352a2b;
+  --bw-button: #9b5275;
+  --bw-button-hover: #9b5275;
+  --bw-button-text: #ffffff;
+  --bw-primary-text: #ffffff;
+}
+
+@theme inline {
+  --color-primary: var(--bw-primary);
+  --color-secondary: var(--bw-secondary);
+  --color-accent: var(--bw-accent);
+  --color-page: var(--bw-bg);
+  --color-surface: var(--bw-surface);
+  --color-ink: var(--bw-text);
+  --color-button: var(--bw-button);
+  --color-button-hover: var(--bw-button-hover);
+  --color-on-button: var(--bw-button-text);
+  --color-on-primary: var(--bw-primary-text);
+  --font-serif: "Alexandria Variable", Alexandria, system-ui, sans-serif;
+  --font-sans: "Alexandria Variable", Alexandria, system-ui, sans-serif;
+  --radius-card: 1.25rem;
+  --shadow-soft: 0 8px 30px -12px color-mix(in srgb, var(--bw-primary) 35%, transparent);
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    -webkit-text-size-adjust: 100%;
+  }
+  body {
+    background: var(--bw-bg);
+    color: var(--bw-text);
+    font-family: var(--font-sans);
+    font-size: 1rem;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+  }
+  h1, h2, h3, h4 {
+    font-family: var(--font-serif);
+    font-weight: 600;
+    line-height: 1.12;
+    letter-spacing: -0.005em;
+  }
+  h1 { font-size: clamp(2.25rem, 5vw, 3.75rem); }
+  h2 { font-size: clamp(1.9rem, 3.4vw, 2.75rem); }
+  h3 { font-size: 1.45rem; }
+  a { color: inherit; }
+  :focus-visible {
+    outline: 2px solid var(--bw-primary);
+    outline-offset: 3px;
+    border-radius: 6px;
+  }
+  img { max-width: 100%; }
+  [hidden] { display: none !important; }
+  @media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
+    *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
+  }
+}
+
+@layer components {
+  .container-page { @apply mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8; }
+  .section { @apply py-12 sm:py-16 lg:py-20; }
+
+  /* ---- buttons ---- */
+  .btn {
+    @apply inline-flex min-h-11 select-none items-center justify-center gap-2 rounded-full px-6 py-2.5 text-center text-sm font-bold
+      tracking-wide transition duration-200 disabled:cursor-not-allowed disabled:opacity-50;
+  }
+  .btn-primary { @apply bg-button text-on-button shadow-sm hover:bg-button-hover; }
+  .btn-outline { @apply border-2 border-primary text-primary hover:bg-primary hover:text-on-primary; }
+  .btn-soft { @apply bg-primary/10 text-ink hover:bg-primary/20; }
+  .btn-ghost { @apply text-ink hover:bg-primary/10; }
+  .btn-danger { @apply border-2 border-red-700/70 text-red-800 hover:bg-red-700 hover:text-white; }
+  .btn-sm { @apply min-h-9 px-4 py-1.5 text-xs; }
+  .btn-lg { @apply min-h-12 px-8 py-3 text-base; }
+  .btn-block { @apply w-full; }
+
+  /* ---- surfaces ---- */
+  .card { @apply rounded-3xl border border-primary/10 bg-surface shadow-soft; }
+  .card-pad { @apply p-5 sm:p-7; }
+  .chip {
+    @apply inline-flex min-h-9 items-center gap-1.5 rounded-full border border-primary/25 bg-surface px-4 py-1.5 text-sm font-semibold
+      transition hover:border-primary hover:bg-primary/5;
+  }
+  .chip[aria-pressed="true"], .chip[aria-current="true"] { @apply border-primary bg-primary text-on-primary; }
+  .badge { @apply inline-flex shrink-0 items-center whitespace-nowrap rounded-full px-2.5 py-0.5 text-xs font-bold; }
+  .badge-sale { @apply bg-red-700 text-white; }
+  .badge-soft { @apply bg-primary/10 text-ink; }
+  .badge-ok { @apply bg-emerald-100 text-emerald-900; }
+  .badge-warn { @apply bg-amber-100 text-amber-900; }
+  .badge-bad { @apply bg-red-100 text-red-900; }
+
+  /* ---- forms ---- */
+  .label { @apply mb-1.5 block text-sm font-bold; }
+  .input {
+    @apply block min-h-11 w-full rounded-xl border border-ink/25 bg-surface px-4 py-2.5 text-base text-ink placeholder:text-ink/45
+      transition focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/30 disabled:bg-ink/5;
+  }
+  textarea.input { @apply min-h-24 leading-relaxed; }
+  select.input { @apply pe-9; }
+  .input[aria-invalid="true"] { @apply border-red-700 ring-2 ring-red-700/20; }
+  .help { @apply mt-1 text-xs text-ink/65; }
+  .field-error { @apply mt-1 text-sm font-semibold text-red-800; }
+  .alert { @apply rounded-2xl border px-4 py-3 text-sm; }
+  .alert-error { @apply border-red-300 bg-red-50 text-red-900; }
+  .alert-success { @apply border-emerald-300 bg-emerald-50 text-emerald-900; }
+  .alert-info { @apply border-primary/25 bg-primary/5 text-ink; }
+  .checkbox { @apply h-5 w-5 shrink-0 rounded border-ink/40 accent-[var(--bw-primary)]; }
+
+  /* ---- tables (admin) ---- */
+  .table-wrap { @apply overflow-x-auto rounded-2xl border border-primary/10 bg-surface; }
+  .table { @apply w-full min-w-[34rem] border-collapse text-start text-sm; }
+  .table th { @apply bg-primary/5 px-4 py-3 text-start text-xs font-bold uppercase tracking-wider text-ink/70; }
+  .table td { @apply border-t border-primary/10 px-4 py-3 align-middle; }
+  .table tbody tr:hover { @apply bg-primary/[0.03]; }
+
+  /* ---- rich text from the admin editor ---- */
+  .rich { @apply space-y-3 leading-relaxed; }
+  .rich h2 { @apply mt-5 text-2xl; }
+  .rich h3 { @apply mt-4 text-xl; }
+  .rich ul { @apply list-disc space-y-1 ps-6; }
+  .rich ol { @apply list-decimal space-y-1 ps-6; }
+  .rich a { @apply font-semibold text-primary underline underline-offset-2; }
+  .rich blockquote { @apply border-s-4 border-secondary ps-4 italic; }
+
+  /* visually hidden but available to screen readers */
+  .sr-only-focusable:not(:focus) { @apply sr-only; }
+}
+
+@utility text-balance { text-wrap: balance; }
+
+.product-quick-view[open] {
+  animation: product-sheet-enter 220ms ease-out both;
+}
+.product-quick-view::backdrop {
+  background: rgb(0 0 0 / 45%);
+}
+@keyframes product-sheet-enter {
+  from { transform: translateY(100%); }
+  to { transform: translateY(0); }
+}
+
+/* ProseMirror (admin rich text editor) */
+.ProseMirror { min-height: 11rem; outline: none; }
+.ProseMirror p.is-editor-empty:first-child::before {
+  content: attr(data-placeholder);
+  color: color-mix(in srgb, var(--bw-text) 45%, transparent);
+  float: inline-start;
+  height: 0;
+  pointer-events: none;
+}
+
+/* Print: order slips */
+@media print {
+  .no-print { display: none !important; }
+  body { background: #fff !important; }
+}
