@@ -307,3 +307,5 @@ src/
 * **Windows: "EBUSY / resource busy" or very slow installs** – this project is easiest to work with outside OneDrive. OneDrive and antivirus scanners briefly lock files; the store tolerates this for uploads but `node_modules` and `.next` inside a synced folder are slow.
 * **Pictures from deleted products are still in `storage/uploads`** – run `npm run uploads:cleanup`.
 * **Changed something directly in the database and the site shows old data** – the site caches data for up to 30 seconds; changes made through the admin clear the cache immediately.
+#   Y a s m e e n - s W o r l d -  
+ 
